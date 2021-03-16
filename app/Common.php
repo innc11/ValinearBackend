@@ -16,12 +16,12 @@ require $config_file;
 ini_set('date.timezone',TIMEZONE);
 ini_set('default_charset', 'UTF-8');
 
+Log\Log::init(LOG_FILE);
+
 Cors\CorsHandle::call();
 
 if(!file_exists(DATA_DIR))
     mkdir(DATA_DIR);
-
-Log\Log::init(LOG_FILE);
 
 define('initialized', true);
 
