@@ -106,8 +106,8 @@ define('SMILIE_CONFIG_FILE', DATA_DIR.DIRECTORY_SEPARATOR.'smilies_settings.json
 // 是否动态响应所有的CORS请求（调试好后建议关闭并开启CORS_ALLOW_HOST）
 define('CORS_ALLOW_ALL', true);
 
-// CORS白名单站点(CORS_ALLOW_ALL为false时有效)
-define('CORS_ALLOW_HOST', 'http://127.0.0.1:4001');
+// CORS白名单站点(CORS_ALLOW_ALL为false时有效，如果Origin无法匹配，则返回第一个项目)
+define('CORS_ALLOW_HOSTS', ['http://127.0.0.1:4001']);
 
 // Sqlite数据库文件的路径
 define('DATABASE_PATH', DATA_DIR.DIRECTORY_SEPARATOR.'database.sqlite3');
