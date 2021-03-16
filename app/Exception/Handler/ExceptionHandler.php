@@ -38,7 +38,7 @@ class ExceptionHandler
 			header('X-Extra-Message: '.base64_encode($extraMessage));
 		}
 	
-		$tracebackString = PRINT_TRACEBACK? self::getFormattedTraceback($e):'';
+		$tracebackString = (defined('PRINT_TRACEBACK')? PRINT_TRACEBACK:true)? self::getFormattedTraceback($e):'';
 		echo <<<EOF
 		<!DOCTYPE html>
 		<html lang="en">
@@ -83,6 +83,9 @@ class ExceptionHandler
 			</body>
 		</html>
 		EOF;
+
+		if(!defined('initialized'))
+			return;
 
 		$tracebackString = self::getFormattedTraceback($e);
 		

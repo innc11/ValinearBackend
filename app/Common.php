@@ -23,6 +23,8 @@ if(!file_exists(DATA_DIR))
 
 Log\Log::init(LOG_FILE);
 
+define('initialized', true);
+
 //-----------------------------------------------------------------
 
 $container = new Pimple\Container();
