@@ -22,8 +22,8 @@ define('MAIL_SITE_URL', '');
 // 邮件主题/标题
 define('MAIL_SUBJECT', '');
 
-// 博主邮箱，用于提示是博主和显示<作者>小标签
-define('MAIL_OWNER_MAIL', '');
+// 博主邮箱，用于提示是博主和显示<作者>小标签，第一个邮箱会收到回复提醒，其它邮箱仅做判断用途
+define('MAIL_OWNER_MAILS', ['']);
 
 // 博主称呼，主要用于logs和邮件通知
 define('MAIL_OWNER_NAME', '作者');

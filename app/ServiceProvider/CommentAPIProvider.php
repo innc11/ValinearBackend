@@ -75,7 +75,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
             }
         } else { // 如果回复的是文章
             // 给博主发邮件
-            $recipientMail = MAIL_OWNER_MAIL;
+            $recipientMail = MAIL_OWNER_MAILS[0];
             $recipientName = MAIL_OWNER_NAME;
             $recipientWebsite = MAIL_SITE_URL;
         }
@@ -145,17 +145,25 @@ class CommentAPIProvider extends Base\ServiceProviderBase
 
         for ($i=$start; $i<$end; $i++) {
             $row = $rows[$i];
+            
+            $avatarUrl = \Utils\Utils::getAvatarByMail($row['mail']);
+            $isAuthor = in_array($row['mail'], MAIL_OWNER_MAILS);
+            // 如果博主没有填写网站，则使用默认站点地址
+            $website = !$isAuthor? $row['website']:($row['website'] || MAIL_SITE_URL);
+            $content = \Smilie\SmilieSystem::showSmilies($row['content']);
+            $replies = self::getRepliesOfComment($db, $row['id']);
+            
             $data[] = [
                 'id' => $row['id'],
-                'avatar' => \Utils\Utils::getAvatarByMail($row['mail']),
+                'avatar' => $avatarUrl,
                 'nick' => $row['nick'],
-                'website' => $row['mail'] != MAIL_OWNER_MAIL? $row['website']:MAIL_SITE_URL, // 如果是博主就不需要写网站，就算写了也会变成默认站点地址
-                'isauthor' => $row['mail'] == MAIL_OWNER_MAIL,
+                'website' => $website, 
+                'isauthor' => $isAuthor,
                 'authorlabel' => MAIL_OWNER_NAME,
                 'useragent' => $row['useragent'],
-                'content' => \Smilie\SmilieSystem::showSmilies($row['content']),
+                'content' => $content,
                 'time' => $row['time'],
-                'replies' => self::getRepliesOfComment($db, $row['id']),
+                'replies' => $replies,
             ];
         }
 
@@ -173,17 +181,23 @@ class CommentAPIProvider extends Base\ServiceProviderBase
         $replies = $db->prepare($sql)->execute(['parent' => $replyId])->fetchAll();
         $repliesObj = [];
         foreach ($replies as $reply) {
+
+            $avatarUrl = \Utils\Utils::getAvatarByMail($reply['mail']);
+            $isAuthor = in_array($reply['mail'], MAIL_OWNER_MAILS);
+            $content = \Smilie\SmilieSystem::showSmilies($reply['content']);
+            $replies = self::getRepliesOfComment($db, $reply['id']);
+
             $repliesObj[] = [
                 'id' => $reply['id'],
-                'avatar' => \Utils\Utils::getAvatarByMail($reply['mail']),
+                'avatar' => $avatarUrl,
                 'nick' => $reply['nick'],
                 'website' => $reply['website'],
-                'isauthor' => $reply['mail'] == MAIL_OWNER_MAIL,
+                'isauthor' => $isAuthor,
                 'authorlabel' => MAIL_OWNER_NAME,
                 'useragent' => $reply['useragent'],
-                'content' => \Smilie\SmilieSystem::showSmilies($reply['content']),
+                'content' => $content,
                 'time' => $reply['time'],
-                'replies' => self::getRepliesOfComment($db, $reply['id']),
+                'replies' => $replies,
             ];
         }
 
