@@ -14,7 +14,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         self::registerRule('POST', '/comment_manage_erase_comfirm', 'onEraseComfirm');
     }
 
-    public static function onLogin(array $params)
+    public function onLogin(array $params)
     {
         self::beginHtml();
         ?>
@@ -31,12 +31,12 @@ class CommentManageProvider extends Base\ServiceProviderBase
         self::endHtml();
     }
 
-    public static function onListComment(array $params)
+    public function onListComment(array $params)
     {
         if(!self::authenticate())
             return;
 
-        $db = $app->container['database'];
+        $db = self::getService('database');
         $adminUser = $_POST['user'];
         $adminPasswd = $_POST['password'];
 
@@ -99,7 +99,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         self::endHtml();
     }
 
-    public static function onEraseComfirm($request, $response, $service, $app)
+    public function onEraseComfirm(array $params)
     {
         if(!self::authenticate())
             return;
@@ -139,7 +139,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         self::endHtml();
     }
 
-    public static function onDoErase(array $params)
+    public function onDoErase(array $params)
     {
         if(!self::authenticate())
             return;
@@ -165,7 +165,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         self::endHtml();
     }
 
-    public static function beginHtml()
+    public function beginHtml()
     {
         ?>
         <!DOCTYPE HTML>
@@ -178,7 +178,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         <?php
     }
 
-    public static function endHtml()
+    public function endHtml()
     {
         ?>
             </body>
@@ -186,7 +186,7 @@ class CommentManageProvider extends Base\ServiceProviderBase
         <?php
     }
 
-    public static function authenticate()
+    public function authenticate()
     {
         $adminUser = $_POST['user'];
         $adminPasswd = $_POST['password'];
