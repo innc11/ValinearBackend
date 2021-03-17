@@ -1,4 +1,4 @@
-# VaCommentBackend
+# AwesomeCommentServer
 
 一个有后端静态页面评论系统
 
