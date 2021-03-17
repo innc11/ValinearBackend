@@ -22,7 +22,8 @@ class Log
 		if($tag != '')
 			$separator = ': ';
 
-		$timestamp = sprintf("[%s] [%s%s%s] [%s]: ", date('Y-m-d H:i:s'), $tag, $separator, $type, $_SERVER['REMOTE_ADDR']);
+		$time = new \DateTime();
+		$timestamp = sprintf("[%s] [%s%s%s] [%s]: ", $time->format('Y-m-d H:i:s v'), $tag, $separator, $type, $_SERVER['REMOTE_ADDR']);
 
 		// $lines = explode($linebreak, $message);
 		// array_walk($lines, function(&$value, $key) use($timestamp) {
