@@ -63,7 +63,7 @@ class SmilieSystem
     }
 
     // 解析表情图片
-    public static function showSmilies($content)
+    public static function showSmilies($content, bool $styleBuiltIn)
     {
         // (表情 -> url) 映射表
         $smtrans = self::smilieTranslations();
@@ -71,8 +71,10 @@ class SmilieSystem
         $smiliesImg = [];
         foreach ($smtrans as $smilieSet => $smilies) {
             foreach ($smilies as $tag => $grin) {
+                $style = $styleBuiltIn?'style="max-width:84px !important; max-height: 84px !important; display:inline-block;"':''; 
+                $filename = basename($grin);
                 $smiliesTag[] = $tag;
-                $smiliesImg[] = '<img class="smilie" src="'.$grin.'" alt="'.basename($grin).'" style="max-width:84px !important;max-height: 84px !important;display:inline-block;"/>';
+                $smiliesImg[] = sprintf('<img class="ac-smilie" src="%s" alt="%s" %s/>', $grin, $filename, $style);
             }
         }
     

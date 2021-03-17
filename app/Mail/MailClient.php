@@ -90,7 +90,7 @@ class MailClient
             '{SiteTitle}',          MAIL_SITE_TITLE,
             '{SiteDescription}',    MAIL_SITE_SUBTITLE,
             '{Subject}',            $notification->subject,
-            '{CommentText}',        \Smilie\SmilieSystem::showSmilies(htmlspecialchars($notification->content)),
+            '{CommentText}',        \Smilie\SmilieSystem::showSmilies(htmlspecialchars($notification->content), true),
 
             '{AuthorName}',         htmlspecialchars($notification->author->name),
             '{AuthorMail}',         htmlspecialchars($notification->author->mail),

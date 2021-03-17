@@ -150,7 +150,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
             $isAuthor = in_array($row['mail'], MAIL_OWNER_MAILS);
             // 如果博主没有填写网站，则使用默认站点地址
             $website = !$isAuthor? $row['website']:($row['website']!=''? $row['website']:MAIL_SITE_URL);
-            $content = \Smilie\SmilieSystem::showSmilies($row['content']);
+            $content = \Smilie\SmilieSystem::showSmilies($row['content'], false);
             $replies = self::getRepliesOfComment($db, $row['id']);
             
             $data[] = [
@@ -184,7 +184,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
 
             $avatarUrl = \Utils\Utils::getAvatarByMail($reply['mail']);
             $isAuthor = in_array($reply['mail'], MAIL_OWNER_MAILS);
-            $content = \Smilie\SmilieSystem::showSmilies($reply['content']);
+            $content = \Smilie\SmilieSystem::showSmilies($reply['content'], false);
             $replies = self::getRepliesOfComment($db, $reply['id']);
 
             $repliesObj[] = [
