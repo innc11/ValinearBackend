@@ -35,6 +35,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
         }
 
         // 准备插入新的评论
+        $insertionTime = time();
         $newComment = [
             'parent' => $data['parent']!=-1? $data['parent']:0,
             'key' => urldecode($data['key']),
@@ -44,7 +45,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
             'website' => $data['website']? $data['website']:'',
             'content' => $data['content'],
             'approved' => true,
-            'time' => time(),
+            'time' => $insertionTime,
             'ip' => $_SERVER['REMOTE_ADDR'],
             'useragent' => $_SERVER['HTTP_USER_AGENT']
         ];
@@ -83,7 +84,10 @@ class CommentAPIProvider extends Base\ServiceProviderBase
         // 如果有收件人的话就发送
         if ($recipientName && $recipientMail)
         {
-            $permalink = MAIL_SITE_URL . $data['key'];
+            $sql = "select * from comments where time = :time and content = :content";
+            $lastInsertion = $db->prepare($sql)->execute(['time' => $insertionTime, 'content' => $data['content']])->fetch();
+
+            $permalink = MAIL_SITE_URL . $data['key'] . '#ac-comment-object-id-'.$lastInsertion['id'];
 
             $params = [
                 'time' => time(),
