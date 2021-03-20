@@ -53,11 +53,13 @@ switch ($routeInfo[0])
 {
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
+        http_response_code(404);
         echo 'Something went wrong 404 ('.$uri.')'.$_SERVER['REQUEST_METHOD'];
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];
         // ... 405 Method Not Allowed
+        http_response_code(405);
         echo 'Something went wrong 405 ('.$uri.')'.$_SERVER['REQUEST_METHOD'];
         break;
     case FastRoute\Dispatcher::FOUND:
