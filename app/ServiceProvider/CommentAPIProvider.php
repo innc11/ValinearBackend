@@ -23,7 +23,7 @@ class CommentAPIProvider extends Base\ServiceProviderBase
         // 检查必要的参数
         \Utils\Utils::checkMissingParameters2($data, ['key', 'label', 'nick', 'content', 'parent']);
 
-        if (!DEVELOPMENT_MODE) { // 不在开发模式时需要检查验证码
+        if (CAPTCHA_REQUIRED) { // 不在开发模式时需要检查验证码
             if (!isset($_COOKIE['captcha'])) {
                 throw new \Exception\WrongCaptchaException('没有请求过验证码或者Cookie未能上传');
             } else if (!isset($data['captcha'])) {

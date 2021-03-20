@@ -124,8 +124,8 @@ define('TIMEZONE', 'Asia/Shanghai');
 // 每页显示多少评论
 define('PAGE_CAPACITY', 5);
 
-// 开发模式下不检查验证码
-define('DEVELOPMENT_MODE', true);
+// 开启验证码功能
+define('CAPTCHA_REQUIRED', true);
 
 // 浏览统计（单位秒），超过这个时间以后会被视为新的访客
 define('PERIOD_AS_NEW_VISITOR', 30);
